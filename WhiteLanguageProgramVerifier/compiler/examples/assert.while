@@ -1,0 +1,23 @@
+assume(x > 0); 
+z = x + 10;
+assert(z > 10);
+assert(z > 0); 
+assert(z > 10);
+ 
+havoc(z);
+
+if (x < 10)
+{
+	assume(z > x + 10);
+}
+else
+{
+	assume(z > x);
+}
+
+// Correct!
+assert(z > 10);
+
+// Not correct!
+//assert(z < 20);
+

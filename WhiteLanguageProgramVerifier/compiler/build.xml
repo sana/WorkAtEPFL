@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="whilelang" default="build" basedir=".">
+    <!-- Some settings. All of them can be overridden in local.properties -->
+    <property file="local.properties" /> 
+
+    <property environment="env" />
+    <property name="scala.home" value="${env.SCALA_HOME}" />
+
+    <property name="base.dir" value="${basedir}" />
+    <property name="sources.dir" value="${base.dir}/src" />
+    <property name="build.dir" value="${base.dir}/bin" />
+
+    <property name="main.class" value="whilelang.Main" />
+
+    <property name="scala-library.jar" value="${scala.home}/lib/scala-library.jar" />
+    <property name="scala-compiler.jar" value="${scala.home}/lib/scala-compiler.jar" />
+
+    <!-- required to use the tasks scalac, fsc and scaladoc -->
+    <taskdef resource="scala/tools/ant/antlib.xml">
+        <classpath>
+            <pathelement location="${scala-compiler.jar}" />
+            <pathelement location="${scala-library.jar}" />
+        </classpath>
+    </taskdef>
+
+    <!-- defining classpaths -->
+    <path id="build.path">
+        <pathelement location="${scala-library.jar}" />
+        <pathelement location="${build.dir}" />
+    </path>
+
+    <!-- compiles the sources -->
+    <target name="build">
+        <mkdir dir="${build.dir}" />
+        <scalac srcdir="${sources.dir}" destdir="${build.dir}" force="changed">
+            <classpath refid="build.path" />
+            <include name="**/*.scala" />
+        </scalac>
+    </target>
+
+    <!-- cleans everything -->
+    <target name="clean">
+        <delete dir="${build.dir}" includeemptydirs="yes" quiet="yes" failonerror="no" />
+    </target>
+</project>

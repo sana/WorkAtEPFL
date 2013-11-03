@@ -1,0 +1,9 @@
+z = 1;
+x = y + z;
+assume (y == 3);
+
+// Correct!
+assert (y == 3);
+
+// This will fail!
+//assert (y == 4);

@@ -1,0 +1,11 @@
+x = 2;
+y = 0;
+while (x > 0) {
+	y = y + 5 * x;
+	x = x - 1;
+}
+assume(x == 0);
+
+assert(y > 5);
+assert(y <= 15);
+assert(x <= 0);

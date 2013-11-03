@@ -1,0 +1,18 @@
+x = 0;
+y = 0;
+z = 0;
+
+if (x > 0)
+{
+	z = 100;
+}
+else
+{
+	z = 200;
+}
+
+havoc(x);
+
+assume(x >= 50);
+
+assert(z < z);

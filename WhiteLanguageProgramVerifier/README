@@ -1,0 +1,8 @@
+To use with Wine
+
+Edit the file z3.sh to fit your wine distribution
+# ant
+# ./run.sh demo
+
+To run some program
+# ./run.sh sums.while

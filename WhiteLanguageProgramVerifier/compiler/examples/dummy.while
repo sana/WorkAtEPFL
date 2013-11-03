@@ -1,0 +1,21 @@
+assume(x > 0);
+z = x + 1;
+assert(z > 1);
+assert(z > 0); 
+assert(z > 1); 
+havoc(z);
+ 
+if (x < 10)
+{
+	assume(z > (x + 11));
+}
+else
+{
+	assume(z > x + 1);
+}   
+ 
+// Correct!
+assert(z > 11);
+
+// Incorrect
+//assert(z > 20);

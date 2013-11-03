@@ -1,0 +1,13 @@
+havoc(x);
+assume(x == 4);
+assert(x > 0);
+havoc(z);
+assume(z == x + 1);
+assert(z > 4);
+
+havoc(x);
+
+x = x + 1;
+assume(x == 3);
+assume(y == 2);
+y = y + 1;

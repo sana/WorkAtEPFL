@@ -1,0 +1,31 @@
+// A demo program using all constructs available
+
+z = 0;
+y = z;
+
+//while loop
+while (z <= 0) {
+    //Nondeterministic choice must be enclosed within parens
+    (
+        z = 2 * x;
+    []
+        z = x + y;
+    ) 
+
+    assume(x < 3);
+
+    //the loop construct executes a command an arbitrary number of times. It corresponds to reflexive transitive closure of the command's relation.
+    loop {
+        x = 3 * x;
+    }
+
+    //havoc makes x arbitrary
+    havoc(x);
+
+    //if statement
+    if(z == 1) {
+        z = z - 1;
+    }
+}
+
+assert(z < 1);
