@@ -1,0 +1,43 @@
+Foundation of Software, Exercise 1: Numbers and Boolean
+Students: Ganea Octavian Laurentiu Dascalu
+
+1. Introduction
+  We implemented an interpreter for the NB language using Scala. We started the
+project from the skeleton project provided on web page of the homework
+assignment.
+
+2. Implementation details
+
+The archive contains the following files:
+    -- build.xml, used to build the project
+    -- src/fos/Arithmetic-partial.scala, contains the logic of the project
+    -- src/fos/Terms-partial.scala, contains the definitions of terms
+
+In the first step, we construct de abstract syntax tree using the Scala's support
+for parsers (scala.util.parsing and the operator <~, ~>, ~, ^^). Then, we evaluate
+in steps the tree; to be sure that we evaluate a single step at a time we used a
+boolean variable "tree_minimized". We note that we use other variables to handle
+the stucking state of the tree. The evaluation of the tree is performed by the
+function Evaluator, that uses the pattern matching feature from Scala.
+
+Also, we wrote useful functions such as TreeFromNumber (2 = (succ (succ zero))) and
+IsNumericalValue (true for (succ succ 0) and false for (succ (pred zero)).
+
+More details are available in the source code, as Scala has a nice syntax and
+the code is self-explaining.
+
+3. Testing
+  Besides the public tests, we manually wrote some tests and we wrote a simple
+Python program to generate others. We packed in this archive:
+    -- test.sh
+    -- test/ Python code and generated tests
+  It is important to note that if you want to use the manual tests, then you
+have to comment and uncomment 2 lines:
+    val tokens = new lexical.Scanner(StreamReader(new java.io.InputStreamReader(System.in)))
+    //val tokens = new lexical.Scanner(args(0))
+
+into
+
+    //val tokens = new lexical.Scanner(StreamReader(new java.io.InputStreamReader(System.in)))
+    val tokens = new lexical.Scanner(args(0))
+
