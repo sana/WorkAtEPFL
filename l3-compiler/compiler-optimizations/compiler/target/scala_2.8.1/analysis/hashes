@@ -1,0 +1,23 @@
+#Source Hashes
+#Fri Apr 22 11:49:50 CEST 2011
+src/l3/L3Tokens.scala=248f9b98933c9ab2adcb917b0e55cca530bca7f6
+src/l3/BlockTag.scala=a35726b58d1bc056ecf412c576bf8ecbec38d30f
+src/l3/CPSPrimitive.scala=f5c49b277fbd3b1d2614299b405a36a92adaecb9
+src/l3/L3Primitive.scala=bb6076817c7ebff7be9a77447ef2eff997625f08
+src/l3/Symbol.scala=55d4bf834db2225bd1d02704c6be5006297acdaf
+src/l3/L3Scanner.scala=4d000f77046fa8f0da2da95a060f68f0d0b5f012
+src/l3/Formatable.scala=913b2f71dcafdbf0080857bc2d39b1f1d1e6ade8
+src/l3/L3Parser.scala=a03092f11120e3f064e9c93f5e23f34e3072bd97
+src/l3/CPSInterpreter.scala=a09154569d7ca0f7b3b7a7011bfd173f181c154e
+src/l3/CPSDataRepresenter.scala=1521cdf76566450611c83d052e1bce2d528e7d34
+src/l3/BitTwiddling.scala=70ff7a8e2e0c7365bfd2baab65451645bf294c54
+src/l3/input/FileReader.scala=ef63928b3042fa2d4af0d631aa003d05a9e7d0e3
+src/l3/CL3Literal.scala=fc44c6a7f77b4a7f70d60472827ade45be6d7f9f
+src/l3/input/SeqReader.scala=bacbb1d47ea30c92333dbed80040ff86eaffd853
+src/l3/Reporter.scala=79061993e53a9545e31c1a7f41890962466d25a2
+src/l3/CL3NameAnalyzer.scala=b4a047f335f46a4346ea9e406ddaad27e827193d
+src/l3/CL3Tree.scala=d6f755f3d001ec9a2d6afa72b12d05a36885b622
+src/l3/IO.scala=b99aadddcb4d6af75e88d9396475c81dc5b78b8c
+src/l3/CPSTree.scala=f87175f295051ba23dfc6e69a2b5628a19552995
+src/l3/CL3Interpreter.scala=a831d37df9cf5d830a366fb72126b3906f506818
+src/l3/Main.scala=befcf9ffdb552e47227dba0a25ed22b51688647e

@@ -1,0 +1,17 @@
+;; "Hello, world" in L₃, the hard way (no syntactic sugar or library
+;; functions).
+
+(@char-print 'H')
+(@char-print 'e')
+(@char-print 'l')
+(@char-print 'l')
+(@char-print 'o')
+(@char-print ',')
+(@char-print ' ')
+(@char-print 'w')
+(@char-print 'o')
+(@char-print 'r')
+(@char-print 'l')
+(@char-print 'd')
+(@char-print '!')
+(@char-print 10)

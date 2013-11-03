@@ -1,0 +1,14 @@
+;; (let ((n (@ block-alloc-50 100)))
+;;  n)
+
+;; (let ((n (@ block-tag (@ block-alloc-65 66))))
+;;  (@char-print n))
+
+;; (let ((n (@ block-length (@ block-alloc-65 66))))
+;;  (@char-print n))
+
+(let ((n (@ block-alloc-65 66)))
+  (@ block-set! n 65 67)
+  (@ char-print (@block-get n 65)))
+  
+;; (letrec ((f (fun (g) (g)))) f)

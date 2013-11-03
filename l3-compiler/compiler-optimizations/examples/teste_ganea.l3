@@ -1,0 +1,6 @@
+(letrec ((f (fun (x) (@char-print x)))
+		(g (fun (y z t)  (f 66)))
+)
+
+
+ (f 65) (g 1 2 3) )

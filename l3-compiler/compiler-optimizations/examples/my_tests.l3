@@ -1,0 +1,71 @@
+(def int->digit
+    (fun (i) (@+ i '0')))
+
+(def int-abs
+     (fun (i) (if (@< i 0) (@- 0 i) i)))
+
+(defrec int-print
+  (fun (i)
+       (rec loop ((i i))
+            (if (and (@<= -9 i) (@<= i 9))
+                (if (@< i 0) (@char-print '-'))
+                (loop (@/ i 10)))
+            (@char-print (int->digit (int-abs (@% i 10)))))))
+
+(def x 3)
+(defrec f (fun (x y) (@+ x y)))
+(int-print (f x x))
+
+(def x 35)
+(def y 36)
+(def g (fun () (f x y)))
+(@char-print (g))
+
+(if (@block? (fun() #t)) (@char-print 'y') (@char-print 'n'))
+
+(letrec (
+ (fx (fun (x) (@ function? fy)))
+ (fy (fun (y) (@ function? fx)))
+ )
+#t)
+
+(let ((x 'Y') (y 'N') (f (fun () #t)))
+  (if (f)
+    (@char-print x)
+    (@char-print y)))
+
+;; (letrec (
+;;  (f (fun ()
+;;    (letrec ((h (fun () 1)))
+;;      #t)))
+;;  (g (fun () #f)))
+;;    (if (f)
+;;      (g))
+;;      (f))
+
+;; (letrec ((f (fun (g x y z) (g)))) 
+;;  (if (@function? f) (@char-print 'Y') (@char-print 'N') )
+;;  (if (@block? f) (@char-print 'Y') (@char-print 'N') )
+;;  (if (@unit? f) (@char-print 'Y') (@char-print 'N') )
+;;  (if (@bool? f) (@char-print 'Y') (@char-print 'N') )
+;;  (if (@int? f) (@char-print 'Y') (@char-print 'N') )
+;; )
+
+;; OK
+;; (def f (fun (x) (@+ #u 1)))
+;; (char-print (@+ 65 (f 5)))
+
+;; OK
+;; (def foo (fun () 0))
+;; #u
+
+;; OK
+;; (letrec ((f (fun ()
+;;  (@char-print 'G'))))
+;;  (f))
+
+;; OK
+;; (letrec ((f (fun (x) (@char-print x)))
+;;  (g (fun (y z t w) (f (@+ (@+ (@+ y z) t) w)))))
+;;    (f 65)
+;;    (g 17 17 17 17))

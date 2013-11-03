@@ -1,0 +1,26 @@
+;; (if (if #t #t #f) #t #f)
+
+;; (if (if #t #f #t) #t #f)
+
+;; (if (if #t #t #t) #t #f)
+
+;; (if (if #t #f #f) #t #f)
+
+;; (if (if #t #f #f) #t #f)
+
+;; (if (if #t #t (@ > 3 4)) #t #f)
+
+;; (if (if #t #f (@ > 3 4)) #t #f)
+
+;; (if (if #t (@ > 3 4) #t) #t #f)
+
+(if (if #t (@ > 3 4) #f) #t #f)
+
+;; (let ((a #t) (b #f) (x 1) (y 2))
+;;  (if (if a b #f) x y))
+
+;; (letrec ((f (fun (g) (g)))) f)
+
+;; (def a (let* ((x 1) (x 2)) x))
+
+0

@@ -1,0 +1,1 @@
+(defrec foo (fun (x) x)) foo

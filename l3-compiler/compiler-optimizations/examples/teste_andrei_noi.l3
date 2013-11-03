@@ -1,0 +1,43 @@
+(def x 3)
+(defrec f (fun (x y) (+ x y)))
+(int-print (f x x))
+
+(defrec f (fun (x y) (- x y)))
+(int-print (f x x))
+
+(defrec f (fun (x y) (* x y)))
+(int-print (f x x))
+
+(defrec f (fun (x y) (/ x y)))
+(int-print (f x x))
+
+(int-print (f x 1))
+
+(defrec f (fun (x y) (% x y)))
+(int-print (f x x))
+
+(defrec f (fun (x y) (if (< x y) 1 2)))
+(int-print (f x (+ x 1)))
+(int-print (f x (- x 1)))
+
+(defrec f (fun (x y) (if (@bool? #t) 1 2)))
+(int-print (f x (+ x 1)))
+
+(defrec f (fun (x y) (if (@bool? 5) 1 2)))
+(int-print (f x (+ x 1)))
+
+(defrec f (fun (x y) (if (@unit? #u) 1 2)))
+(int-print (f x (+ x 1)))
+
+(defrec f (fun (x y) (if (@unit? #f) 1 2)))
+(int-print (f x (+ x 1)))
+
+(defrec f (fun (x y) (if (@function? f) 1 2)))
+(int-print (f x (+ x 1)))
+
+(defrec f (fun (x y) (if (@function? #u) 1 2)))
+(int-print (f x (+ x 1)))
+(int-print -12)
+(int-print (/ -10 3))
+
+(int-print x)

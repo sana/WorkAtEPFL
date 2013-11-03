@@ -1,0 +1,248 @@
+;; In Emacs, open this file in -*- Scheme -*- mode.
+
+;; Basic library for L₃.
+;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; This library uses the following block tags:
+;;   0 for pairs
+;;   1 for vectors
+;;   2 for empty lists
+;;   3 for non-empty lists
+;; 200 for strings (predefined)
+
+;; Functions
+
+(def function? (fun (o) (@function? o)))
+
+(def function-compose
+     (fun (f g)
+          (fun (x) (f (g x)))))
+
+;; Unit
+
+(def unit? (fun (o) (@unit? o)))
+
+;; Booleans
+
+(def bool? (fun (o) (@bool? o)))
+
+;; Characters
+
+(def char-read (fun () (@char-read)))
+(def char-print (fun (c) (@char-print c)))
+(def newline-print (fun () (char-print 10)))
+
+(def char-digit?
+     (fun (c)
+          (and (@<= '0' c) (@<= c '9'))))
+
+(def digit->int
+     (fun (c) (@- c '0')))
+
+(def int->digit
+     (fun (i) (@+ i '0')))
+
+;; Integers
+
+(def int? (fun (o) (@int? o)))
+
+(def + (fun (x y) (@+ x y)))
+(def - (fun (x y) (@- x y)))
+(def * (fun (x y) (@* x y)))
+(def / (fun (x y) (@/ x y)))
+(def % (fun (x y) (@% x y)))
+
+(def < (fun (x y) (@< x y)))
+(def <= (fun (x y) (@<= x y)))
+(def = (fun (x y) (@= x y)))
+(def != (fun (x y) (@!= x y)))
+(def > (fun (x y) (@> x y)))
+(def >= (fun (x y) (@>= x y)))
+
+(def int-abs
+     (fun (i) (if (< i 0) (- 0 i) i)))
+
+(def int-read
+     (letrec ((loop
+               (fun (acc-f acc)
+                    (let ((c (char-read)))
+                      (if (char-digit? c)
+                          (loop acc-f (acc-f (* acc 10) (digit->int c)))
+                          acc)))))
+       (fun ()
+            (let ((c (char-read)))
+              (cond ((= c '-') (loop - 0))
+                    ((char-digit? c) (loop + (digit->int c)))
+                    (#t 0))))))
+
+(defrec int-print
+  (fun (i)
+       (rec loop ((i i))
+            (if (and (<= -9 i) (<= i 9))
+                (if (< i 0) (char-print '-'))
+                (loop (/ i 10)))
+            (char-print (int->digit (int-abs (% i 10)))))))
+
+;; Strings
+
+(def string?
+     (fun (o)
+          (and (@block? o) (= 200 (@block-tag o)))))
+(def string-length
+     (fun (s) (@block-length s)))
+(def string-get
+     (fun (s i) (@block-get s i)))
+
+(def string-print
+     (fun (s)
+          (rec loop ((i 0))
+               (if (< i (string-length s))
+                   (begin
+                     (char-print (string-get s i))
+                     (loop (+ i 1)))))))
+
+;; Pairs
+
+(def pair?
+     (fun (o)
+          (and (@block? o) (= 0 (@block-tag o)))))
+
+(def pair-make (fun (fst snd)
+                    (let ((p (@block-alloc-0 2)))
+                      (@block-set! p 0 fst)
+                      (@block-set! p 1 snd)
+                      p)))
+
+(def pair-fst (fun (p) (@block-get p 0)))
+(def pair-snd (fun (p) (@block-get p 1)))
+
+;; Vectors
+
+(def vector?
+     (fun (o)
+          (and (@block? o) (= 1 (@block-tag o)))))
+(def vector-alloc (fun (n) (@block-alloc-1 n)))
+(def vector-get (fun (v n) (@block-get v n)))
+(def vector-set! (fun (v n o) (@block-set! v n o)))
+
+;; Lists
+
+(def list-empty
+     (@block-alloc-2 0))
+(def list-prepend
+     (fun (head tail)
+          (let ((l (@block-alloc-3 2)))
+            (@block-set! l 0 head)
+            (@block-set! l 1 tail)
+            l)))
+
+(def list?
+     (fun (o)
+          (and (@block? o)
+               (let ((tag (@block-tag o)))
+                 (or (= tag 2) (= tag 3))))))
+
+(def list-empty? (fun (l) (= 2 (@block-tag l))))
+
+(def list-make-1
+     (fun (e1)
+          (list-prepend e1 list-empty)))
+(def list-make-2
+     (fun (e1 e2)
+          (list-prepend e1 (list-make-1 e2))))
+(def list-make-3
+     (fun (e1 e2 e3)
+          (list-prepend e1 (list-make-2 e2 e3))))
+(def list-make-4
+     (fun (e1 e2 e3 e4)
+          (list-prepend e1 (list-make-3 e2 e3 e4))))
+(def list-make-5
+     (fun (e1 e2 e3 e4 e5)
+          (list-prepend e1 (list-make-4 e2 e3 e4 e5))))
+(def list-make-6
+     (fun (e1 e2 e3 e4 e5 e6)
+          (list-prepend e1 (list-make-5 e2 e3 e4 e5 e6))))
+(def list-make-7
+     (fun (e1 e2 e3 e4 e5 e6 e7)
+          (list-prepend e1 (list-make-6 e2 e3 e4 e5 e6 e7))))
+(def list-make-8
+     (fun (e1 e2 e3 e4 e5 e6 e7 e8)
+          (list-prepend e1 (list-make-7 e2 e3 e4 e5 e6 e7 e8))))
+(def list-make-9
+     (fun (e1 e2 e3 e4 e5 e6 e7 e8 e9)
+          (list-prepend e1 (list-make-8 e2 e3 e4 e5 e6 e7 e8 e9))))
+(def list-make-10
+     (fun (e1 e2 e3 e4 e5 e6 e7 e8 e9 e10)
+          (list-prepend e1 (list-make-9 e2 e3 e4 e5 e6 e7 e8 e9 e10))))
+
+(def list-head (fun (l) (@block-get l 0)))
+(def list-tail (fun (l) (@block-get l 1)))
+
+(defrec list-for-each
+  (fun (f l)
+       (if (not (list-empty? l))
+           (begin
+             (f (list-head l))
+             (list-for-each f (list-tail l))))))
+
+(defrec list-map
+  (fun (f l)
+       (if (list-empty? l)
+           l
+           (list-prepend (f (list-head l))
+                         (list-map f (list-tail l))))))
+
+(defrec list-fold-left
+  (fun (f z l)
+       (if (list-empty? l)
+           z
+           (list-fold-left f (f z (list-head l)) (list-tail l)))))
+
+(defrec list-fold-right
+  (fun (f z l)
+       (if (list-empty? l)
+           z
+           (f (list-head l) (list-fold-right f z (list-tail l))))))
+
+(def list-filter
+   (fun (p l)
+       (list-fold-right (fun (e r) (if (p e) (list-prepend e r) r))
+                        list-empty
+                        l)))
+
+(def list-partition
+  (fun (p l)
+       (list-fold-right
+        (fun (e y/n)
+             (if (p e)
+                 (pair-make (list-prepend e (pair-fst y/n)) (pair-snd y/n))
+                 (pair-make (pair-fst y/n) (list-prepend e (pair-snd y/n)))))
+        (pair-make list-empty list-empty)
+        l)))
+
+(defrec list-take
+  (fun (l n)
+       (if (= 0 n)
+           list-empty
+           (list-prepend (list-head l) (list-take (list-tail l) (- n 1))))))
+
+(defrec list-drop
+  (fun (l n)
+       (if (= 0 n)
+           l
+           (list-drop (list-tail l) (- n 1)))))
+
+(defrec list-length
+  (fun (l)
+       (if (list-empty? l) 0 (+ 1 (list-length (list-tail l))))))
+
+(defrec list-reverse
+  (fun (l)
+       (list-fold-left (fun (t h) (list-prepend h t)) list-empty l)))
+
+(defrec list-append
+  (fun (l1 l2)
+       (cond ((list-empty? l1) l2)
+             ((list-empty? l2) l1)
+             (#t (list-prepend (list-head l1)
+                               (list-append (list-tail l1) l2))))))

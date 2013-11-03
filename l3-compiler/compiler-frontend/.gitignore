@@ -1,0 +1,11 @@
+.DS_Store
+compiler/target
+compiler/project/boot
+compiler/project/build/target
+tools
+notes.org
+tests/drafts
+tests/course
+vm/*.d
+vm/*.o
+vm/bin

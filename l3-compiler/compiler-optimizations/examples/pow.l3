@@ -1,0 +1,14 @@
+;; In Emacs, open this file in -*- Scheme -*- mode
+
+(defrec pow
+  (fun (x y)
+       (cond ((= 0 y)
+              1)
+             ((= 0 (% y 2))
+              (let ((t (pow x (/ y 2))))
+                (* t t)))
+             (#t
+              (* x (pow x (- y 1)))))))
+
+;; Should print 531441
+(int-print (pow 3 12))

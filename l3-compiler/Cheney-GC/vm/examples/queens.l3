@@ -1,0 +1,211 @@
+;; solutions are represented as integer list, where the index denotes the
+;; row (from the bottom), the value the column. for example, the solution
+;; for n = 4
+;;   _ _ _ _
+;;  | |o| | |
+;;  | | | |o|
+;;  |o| | | |
+;;  | | |o| |
+;;
+;; is represented as (3, 1, 4, 2)
+
+
+(def space-print (fun () (char-print ' ')))
+
+;; SOME USEFUL LIST FUNCTIONS
+
+;; 0 if p is 0 for some element of l
+(defrec list-for-all
+  (fun (p l)
+    (if (list-empty? l)
+        #t
+        (and (p (list-head l)) (list-for-all p (list-tail l))))))
+
+(defrec list-range
+  (fun (x y)
+    (if (> x y)
+        list-empty
+        (list-prepend x (list-range (+ x 1) y)))))
+
+;; assumes same lengths
+(defrec list-zip
+  (fun (l1 l2)
+    (if (list-empty? l1)
+        list-empty
+        (list-prepend
+          (list-prepend (list-head l1) (list-head l2))
+          (list-zip (list-tail l1) (list-tail l2))))))
+
+
+(def list-zip-with-index
+  (fun (l)
+    (list-zip l (list-range 1 (list-length l)))))
+
+
+(def list-int-print
+  (fun (l)
+    (char-print '(')
+    (list-for-each (fun (elem)
+                (int-print elem)
+                (space-print))
+              l)
+    (char-print ')')))
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; CHECK IF NO TWO QUEENS IN A COLUMN
+
+;; essentially checks for duplicates
+(defrec col-ok
+  (fun (rows)
+    (if (list-empty? rows)
+        #t
+        (and
+          (list-for-all
+            (fun (x) (not (= (list-head rows) x)))
+            (list-tail rows))
+          (col-ok (list-tail rows))))))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; CHECK IF NO TWO QUEENS IN A DIAGONAL
+
+;; depth denotes how many rows x and y are separated
+(def on-diag
+  (fun (x y depth)
+    (or
+      (= (+ x depth) y)
+      (= (- x depth) y))))
+
+
+(defrec diag-ok
+  (fun (rows)
+    (if (list-empty? rows)
+        #t
+        (and
+          (list-for-all
+            (fun (pair)
+              (not (on-diag (list-head rows) (list-head pair) (list-tail pair))))
+            (list-zip-with-index (list-tail rows))) ;; index is the row distance from (list-head rows)
+          (diag-ok (list-tail rows))))))
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;
+;; CHECKING SOLUTIONS
+
+(def partial-ok
+  (fun (rows)
+    (and
+      (col-ok rows)
+      (diag-ok rows))))
+
+
+;; not actually used in the algorithm below
+(def queens-ok
+  (fun (rows n)
+    (and
+      (list-for-all (fun (x) (<= x n)) rows) ;; no elements bigger than n
+      (and
+        (= n (list-length rows))                ;; there are n queens
+        (partial-ok rows)))))              ;; they don't conflict
+
+
+
+;;;;;;;;;;;;;;;;;;;;;
+;; FINDING A SOLUTION
+
+
+(def queens
+     (fun (n)
+          (letrec ((%advance
+                    (fun (partial n)
+                         (if (< (list-head partial) n)
+                             (%queens (list-prepend (+ 1 (list-head partial)) (list-tail partial)) n)   ;; try next value of (list-head partial)
+                             list-empty)))   ;; there's no solution for (list-tail partial)
+                   (%queens
+                    (fun (partial n)
+                         (if (partial-ok partial)
+                             (if (= (list-length partial) n)
+                                 partial                                     ;; partial solution with full length: we're done
+                                 (let ((sol (%queens (list-prepend 1 partial) n)))
+                                   (if (list-empty? sol)
+                                       (%advance partial n)
+                                       sol)))
+                             (%advance partial n)))))
+            (%queens (list-make-1 1) n))))
+
+
+;;;;;;;;;;;
+;; PRINTING
+
+(defrec for
+  (fun (from to body)
+    (if (< from to)
+        (begin
+          (body from)
+          (for (+ from 1) to body)))))
+
+(def %header
+  (fun (rows)
+    (newline-print)
+    (int-print (list-length rows))
+    (string-print "-queen(s)")
+    (newline-print)
+    (string-print "list: ")
+    (list-int-print (list-reverse rows))
+    (newline-print)
+    (for 0 (list-length rows)
+      (fun (x) (string-print " _")))
+    (newline-print)))
+
+(def %row
+  (fun (p n)
+    (begin
+      (for 0 n
+        (fun (x)
+          (begin
+            (string-print "|")
+            (string-print (if (= (+ x 1) p) "o" " ")))))
+      (string-print "|")
+      (newline-print))))
+
+
+(defrec %print-rows
+  (fun (rows n)
+    (if (= (list-length rows) n)
+      (%header rows))
+    (if (list-empty? rows)
+      (newline-print)
+      (begin
+        (%row (list-head rows) n)
+        (%print-rows (list-tail rows) n)))))
+
+(def print-solution
+  (fun (rows)
+    (if (= (list-length rows) 0)
+      (begin
+        (string-print "no solution found!")
+        (newline-print))
+      (%print-rows (list-reverse rows) (list-length rows)))))
+
+
+
+;;;;;;;;;;;;;;;;;
+;; USER INTERFACE
+
+(defrec tui
+  (fun ()
+    (string-print "enter size (0 to exit)> ")
+    (let ((size (int-read)))
+      (if (not (= size 0))
+          (begin
+            (print-solution (queens size))
+            (tui))))))
+
+
+;; "main"
+(tui)
+

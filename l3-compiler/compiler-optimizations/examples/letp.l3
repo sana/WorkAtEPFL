@@ -1,0 +1,113 @@
+;; (let ((x (@ + 1 2)))
+;;  x)
+
+;; (let ((x (@ - 1 2)))
+;;  x)
+
+;; (let ((x (@ * 1 2)))
+;;  x)
+
+;; (let ((x (@ / 4 2)))
+;;  x)
+
+;; (let ((x (@ % 4 2)))
+;;  x)
+
+;; (let ((x (@ / 4 2)))
+;;  x)
+
+;; (let ((x (@ char-print 65)))
+;;  x)
+
+;; (let ((x (@ char-read)))
+;;  (@ char-print x))
+
+;; (let ((n (@ block-alloc-25 10)))
+;;  n)
+
+;; (let ((n (@ block-alloc-65 20)))
+;;  (@ char-print (@ block-tag n)))
+
+;; (let ((n (@ block-alloc-65 20)))
+;;  (let ((m (@ block-tag n)))
+;;    (@ char-print m)))
+
+;; (let ((n (@ block-alloc-20 66)))
+;;  (let ((m (@ block-length n)))
+;;    (@ char-print m)))
+
+;; (let ((n (@ block-alloc-20 66)))
+;;  (let ((m (@ block-set! n 65 67)))
+;;  	(let ((p (@ block-get n 65)))
+;;      (@ char-print p))))
+
+;; (if (@ < 5 2)
+;;  (@ char-print 'Y')
+;;  (@ char-print 'N'))
+  
+;; (if (@ > 5 2)
+;;  (@ char-print 'Y')
+;;  (@ char-print 'N'))
+
+;; (if (@ >= 5 5)
+;;  (@ char-print 'Y')
+;;  (@ char-print 'N'))
+  
+;; (if (@ <= 5 5)
+;;  (@ char-print 'Y')
+;;  (@ char-print 'N'))
+
+;; (if (@ = 5 5)
+;;  (@ char-print 'Y')
+;;  (@ char-print 'N'))
+  
+;; (if (@ != 5 5)
+;;  (@ char-print 'Y')
+;;  (@ char-print 'N'))
+
+;; (if (@ int? 'A')
+;;  (@ char-print 'Y')
+;;  (@ char-print 'N'))
+
+;; (if (@ bool? #u)
+;;  (@ char-print 'Y')
+;;  (@ char-print 'N'))
+
+;; (if (@ unit? 'A')
+;;  (@ char-print 'Y')
+;;  (@ char-print 'N'))
+
+;; (let ((x (@ block-alloc-65 20)))
+;;  (if (@ block? x)
+;;    (@ char-print 'Y')
+;;    (@ char-print 'N')))
+
+;; (def foo
+;;  (fun (f g)
+;;    (fun (x) (f (g x)))))
+
+;; (let ((x (fun () #t)))
+;;  (if (@ function? x)
+;;    (@ char-print 'Y')
+;;    (@ char-print 'N')))
+
+;; (let ((x (fun () #t)) (y (fun() #f)) (z #t) (w 0))
+;;  (if (@ function? (fun() #t))
+;;    (@ char-print 'Y')
+;;    (@ char-print 'N')))
+  
+;; (let ((x (fun () #t)))
+;;  (if (@ function? 1)
+;;    (@ char-print 'Y')
+;;    (@ char-print 'N')))
+
+;; (let ((x (fun (y z) (y z))) (t (fun () #u)))
+;;  #f)
+
+(let ((x (fun (y z) #t)) (t (fun () #f)))
+  (x #t (t)))
+
+;; (let ((x (fun () #t)))
+;;  (if (@ block? x)
+;;    (@ char-print 'Y')
+;;    (@ char-print 'N')))

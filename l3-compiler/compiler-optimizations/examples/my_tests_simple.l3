@@ -1,0 +1,17 @@
+(def unit? (fun (o) (@unit? o)))
+(def char-print (fun (c) (@char-print c)))
+
+(def foo (fun ()
+  (char-print 'H')
+  (char-print 'I')
+  #u))
+  
+(if (unit? (foo))
+ (char-print 'Y')
+ (char-print 'N')
+)
+
+(if (unit? foo)
+ (char-print 'Y')
+ (char-print 'N')
+)

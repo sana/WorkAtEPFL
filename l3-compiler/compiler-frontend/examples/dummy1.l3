@@ -1,0 +1,2 @@
+(defrec foo (fun (i) (@+ i '0')))
+(foo 4)

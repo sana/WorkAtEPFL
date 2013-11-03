@@ -1,0 +1,7 @@
+;; (if (@<= 9 (@/ 96 10)) (@char-print 'y') (@char-print 'n'))
+
+;; (if (@< 9 (@/ 96 10)) (@char-print 'y') (@char-print 'n'))
+
+;; (int-print 25)
+
+;; (int-print 95)

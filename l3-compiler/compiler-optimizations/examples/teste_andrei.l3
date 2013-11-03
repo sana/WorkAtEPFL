@@ -1,0 +1,16 @@
+;; (zip lA lB) -> [ lA[1], lB[1], lA[2], lB[2], ... ]
+(defrec zip 
+  (fun (l1 l2)
+       (if (list-empty? l1) 
+	   l2
+	   (list-prepend (list-head l1) (zip l2 (list-tail l1))))))
+
+(def l5 (list-make-5 1 2 3 4 5))
+
+(def l7 (list-make-7 -1 -2 -3 -4 -5 -6 -7))
+	    
+;; prints a list of integers
+
+(def list-int-print (fun (l) (list-for-each int-print l))) 
+       
+(list-int-print (zip l7 l5))
