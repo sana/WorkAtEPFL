@@ -1,4 +1,4 @@
-WorkAtEPFL
+Work@EPFL
 ==========
 
   In this section you can find some projects I have been working on while doing
